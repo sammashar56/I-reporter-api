@@ -13,3 +13,20 @@ class Redflag(Resource, Models):
             return ({'message': 'no records found'}),200
         return ({'incidents': self.db}),200
 
+    def post(self):
+        """create a redflag"""
+        parser = reqparse.RequestParser()
+        parser.add_argument('comment', 
+        type=str, 
+        required=True, 
+        help='provide a comment')
+
+        parser.add_argument('location',
+        type=str,
+        required=True,
+        help='please provide location')
+        args = parser.parse_args()
+        Models().add_record(args)
+
+        return ({'Record': args}),201
+
