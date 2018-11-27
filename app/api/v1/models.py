@@ -13,3 +13,10 @@ class Models():
                 '%Y-%m-%d %H:%M:%S')
         data['status'] = None
         incidents.append(data)
+
+    def check_id_validity(self, id):
+        for incident in self.db:
+            if incident['id'] == id:
+                return incident, 200
+            
+            
