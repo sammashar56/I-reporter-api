@@ -18,3 +18,9 @@ class Models():
     def get_specif_record(self, id):
         ident = [incident for incident in self.db if incident['id'] == id]
         return ident
+
+    def delete_incident(self, id):
+        for i in incidents:
+            if i['id'] == id:
+                incidents.remove(i)
+                
