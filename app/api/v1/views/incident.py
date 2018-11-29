@@ -40,7 +40,7 @@ class Redflag(Resource, Models):
         'location':args['location'],
         'type_of_incident':args['type_of_incident']}
 
-        incident_data = model.add_record(data)
+        model.add_record(data)
 
 
         return ({'status':'success','Incident': data}),201
@@ -86,5 +86,11 @@ class Get_incident(Resource):
         else:
             return({'msg':'incident not found'}),404  
 
-
+    def delete(self, id):
+        specific_incident = model.get_specif_record(id)
+        if specific_incident:
+            value = model.delete_incident(id)
+            return({'status':'successfully deleted'}),200
+        else:
+            return({'status':'failed to delete'}),404
 
