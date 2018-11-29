@@ -55,7 +55,7 @@ class Get_incident(Resource):
                 "Incident":model.get_specif_record(id)}),200
         else: 
             return ({"status":"success",
-                "incident": 'incident not found'}),200
+                "incident": 'incident not found'}),404
 
     def put(self, id):
         specific_incident = model.get_specif_record(id)
@@ -89,7 +89,7 @@ class Get_incident(Resource):
     def delete(self, id):
         specific_incident = model.get_specif_record(id)
         if specific_incident:
-            value = model.delete_incident(id)
+            model.delete_incident(id)
             return({'status':'successfully deleted'}),200
         else:
             return({'status':'failed to delete'}),404
