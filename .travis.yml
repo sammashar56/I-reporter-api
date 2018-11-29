@@ -9,5 +9,5 @@ install:
 script:
   - nosetests --with-coverage --cover-package=app
 
-after-success:
+after_success:
   - coveralls
