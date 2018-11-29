@@ -57,5 +57,34 @@ class Get_incident(Resource):
             return ({"status":"success",
                 "incident": 'incident not found'}),200
 
+    def put(self, id):
+        specific_incident = model.get_specif_record(id)
+        parser = reqparse.RequestParser()
+        parser.add_argument('comment',
+        type=str,
+        required=False
+        )
+        parser.add_argument('location',
+        type=str,
+        required=False
+        )
+
+        args = parser.parse_args()
+        # pdb.set_trace()
+        if specific_incident:
+            if args['comment']:
+                specific_incident[0]['comment'] = args['comment']
+                if args['location']:
+                    specific_incident[0]['location'] = args['location']
+                    return({'status':'success','message':'comments and location updated'}),201
+                else:
+                    return({'status':'success','message':'comment only updated'}),201
+            elif not args['comment']:
+                if args['location']:
+                    specific_incident[0]['location'] = args['location']
+                    return({'status':'success','message':'only location updated'}),201
+        else:
+            return({'msg':'incident not found'}),404  
+
 
 
