@@ -6,7 +6,7 @@ __pycache__/
 # C extensions
 *.so
 #vscode stuff
-.vscode/
+.vscode
 # Distribution / packaging
 .Python
 build/
@@ -58,7 +58,7 @@ local_settings.py
 db.sqlite3
 
 # Flask stuff:
-instance/
+# instance/
 .webassets-cache
 
 # Scrapy stuff:
