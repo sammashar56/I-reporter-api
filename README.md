@@ -1,3 +1,3 @@
-# I-reporter-api  [![Build Status](https://travis-ci.org/sammashar56/I-reporter-api.svg?branch=ch-tests-162302900)](https://travis-ci.org/sammashar56/I-reporter-api) [![Coverage Status](https://coveralls.io/repos/github/sammashar56/I-reporter-api/badge.svg?branch=ch-tests-162302900)](https://coveralls.io/github/sammashar56/I-reporter-api?branch=ch-tests-162302900)
+# I-reporter-api  [![Build Status](https://travis-ci.org/sammashar56/I-reporter-api.svg?branch=ch-tests-162302900)](https://travis-ci.org/sammashar56/I-reporter-api) [![Coverage Status](https://coveralls.io/repos/github/sammashar56/I-reporter-api/badge.svg?branch=ch-tests-162302900)](https://coveralls.io/github/sammashar56/I-reporter-api?branch=ch-tests-162302900) [![Maintainability](https://api.codeclimate.com/v1/badges/ec42c05ecbd4ede370b4/maintainability)](https://codeclimate.com/github/sammashar56/I-reporter-api/maintainability)
 
-This reporting corruption app 
+This is a corruption reporting app 
