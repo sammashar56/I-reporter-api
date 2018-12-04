@@ -1,8 +1,8 @@
 from flask_restful import Resource, reqparse
 
-from app.api.v1.models import Models
+from app.api.v1.models import UsersModel
 
-model = Models()
+model = UsersModel()
 
 class Users(Resource):
 	""" user regstration"""
@@ -42,7 +42,6 @@ class Users(Resource):
 		args = parser.parse_args()
 		if args['password'] == args['confirm_password']:
 			model.add_user(args)
-			return({'status':'user successfully created',
+			return({'status':201,
 				    'user':args}),201
-		else:
-			return({'message': 'passwords do not match'}),401
+		return({'message': 'passwords do not match'}),401
