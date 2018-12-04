@@ -4,16 +4,17 @@ from flask_restful import Api
 
 #local imports
 from instance.config import app_config
-from app.api.v1.views.incident import Redflag, Get_incident
+from app.api.v1.views.incident import Incident, SingleIncidentResource
 from app.api.v1.views.users import Users
 
-def create_app(config):
+def create_app(config): 
     """this method creates all instance needed for endpoints"""
     app = Flask(__name__)
     api = Api(app)
     app.config.from_object(app_config[config])
-    api.add_resource(Redflag, '/api/v1/incidents')
-    api.add_resource(Get_incident, '/api/v1/incident/<int:id>')
+    app.url_map.strict_slashes = False
+    api.add_resource(Incident, '/api/v1/incidents')
+    api.add_resource(SingleIncidentResource, '/api/v1/incident/<int:id>')
     api.add_resource(Users, '/api/v1/users')
 
             

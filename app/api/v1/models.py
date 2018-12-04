@@ -1,37 +1,40 @@
-incidents = []
-users = []
-
 from datetime import datetime as dt
 
-class Models():
+user = []
+incident = []
+
+class UsersModel():
     def __init__(self):
-        self.users = users
-        self.db = incidents
-        
-    def add_record(self, data):
-        id = len(self.db)+1
-        data['id'] = id
-        data['created_by'] = data['id'] = id
-        data['creation date'] = dt.now().strftime(
-                '%Y-%m-%d %H:%M:%S')
-        data['status'] = None
-        
-        self.db.append(data)
+        self.user = user
 
     def add_user(self, data):
-        id = len(self.users)+1
+        id = len(self.user) +1
         data['id'] = id
-        self.users.append(data)
+        self.user.append(data)
 
-    def get_specif_record(self, id):
-        ident = [incident for incident in self.db if incident['id'] == id]
+        
+class IncidentModel():
+    def __init__(self):
+        self.incident = incident
+
+    def add_incident(self, data):
+        id = len(self.incident) +1
+        data['id'] = id
+        data['created_by'] = data['id'] 
+        data['creation date'] = dt.now().strftime(
+                '%Y-%m-%d %H:%M:%S')
+        data['status'] = None      
+        self.incident.append(data)
+
+    def get_specif_incident(self, id):
+        ident = [incident for incident in self.incident if incident['id'] == id]
         return ident
         
     def delete_incident(self, id):
-        for i in incidents:
+        for i in self.incident:
             if i['id'] == id:
-                incidents.remove(i)
-                
-        
+                self.incident.remove(i)
+
     def get_all_incidents(self):
-        return self.db
+        return self.incident
+                

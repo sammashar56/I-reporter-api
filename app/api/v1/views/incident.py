@@ -2,20 +2,19 @@
 from flask_restful import Resource, reqparse
 
 #local imports
-from app.api.v1.models import incidents, Models
+from app.api.v1.models import IncidentModel ,incident
+model = IncidentModel()
 
-model = Models()
-
-class Redflag(Resource, Models):
-    """redflag endpoints """
+class Incident(Resource, IncidentModel):
+    """incident endpoints """
     def get(self):
-        """get all records of redflags and interventions"""
-        if len(self.db) == 0:
+        """get all records of incidents"""
+        if len(self.incident) == 0:
             return ({'message': 'no records found'}), 200
-        return ({'incidents': self.db}), 200
-
+        return ({'incidents': self.incident}), 200
+ 
     def post(self): 
-        """create a redflag"""
+        """create an incident"""
         parser = reqparse.RequestParser()
         parser.add_argument('comment', 
         type=str, 
@@ -34,31 +33,26 @@ class Redflag(Resource, Models):
         required=True,
         help='please provide location')
         args = parser.parse_args()
-        # model.add_record(args)
-
         data = {'comment': args['comment'], 
         'location':args['location'],
         'type_of_incident':args['type_of_incident']}
 
-        model.add_record(data)
+        model.add_incident(data)
 
+        return ({'status':201,'Incident': data}),201
 
-        return ({'status':'success','Incident': data}),201
-
-class Get_incident(Resource):
-    specific_incident = model.get_specif_record(id)
-    """class to get specific record"""
-
+class SingleIncidentResource(Resource, IncidentModel):
+    """Get specific record"""
+    specific_incident = model.get_specif_incident(id)
     def get(self, id):
-        if model.get_specif_record(id):
-            return ({'status': "ok",
-                "Incident":model.get_specif_record(id)}),200
-        else: 
-            return ({"status":"success",
-                "incident": 'incident not found'}),404
+        if model.get_specif_incident(id):
+            return ({'status': 200,
+                "Incident":model.get_specif_incident(id)}),200
+        return ({"status":404,
+            "incident": 'incident not found'}),404
 
     def put(self, id):
-        specific_incident = model.get_specif_record(id)
+        specific_incident = model.get_specif_incident(id)
         parser = reqparse.RequestParser()
         parser.add_argument('comment',
         type=str,
@@ -76,21 +70,18 @@ class Get_incident(Resource):
                 specific_incident[0]['comment'] = args['comment']
                 if args['location']:
                     specific_incident[0]['location'] = args['location']
-                    return({'status':'success','message':'comments and location updated'}),201
-                else:
-                    return({'status':'success','message':'comment only updated'}),201
+                    return({'status':201,'message':'comments and location updated'}),201
+                return({'status':201,'message':'comment only updated'}),201
             elif not args['comment']:
                 if args['location']:
                     specific_incident[0]['location'] = args['location']
-                    return({'status':'success','message':'only location updated'}),201
-        else:
-            return({'msg':'incident not found'}),404  
+                    return({'status':201,'message':'only location updated'}),201
+        return({'message':'incident not found'}),404  
 
     def delete(self, id):
-        specific_incident = model.get_specif_record(id)
+        specific_incident = model.get_specif_incident(id)
         if specific_incident:
             model.delete_incident(id)
-            return({'status':'successfully deleted'}),200
-        else:
-            return({'status':'failed to delete'}),404
+            return({'status':'incident deleted'}),200
+        return({'status':'failed to delete'}),404
 
