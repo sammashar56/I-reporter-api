@@ -2,9 +2,10 @@
 from flask_restful import Resource, reqparse
 
 #local imports
-from app.api.v1.models import IncidentModel ,incident
+from app.api.v1.validators import Validators 
+from app.api.v1.models import IncidentModel 
 model = IncidentModel()
-
+validator = Validators()
 class Incident(Resource, IncidentModel):
     """incident endpoints """
     def get(self):
@@ -42,46 +43,55 @@ class Incident(Resource, IncidentModel):
         return ({'status':201,'Incident': data}),201
 
 class SingleIncidentResource(Resource, IncidentModel):
-    """Get specific record"""
+    """Get specific record class"""
     specific_incident = model.get_specif_incident(id)
     def get(self, id):
-        if model.get_specif_incident(id):
-            return ({'status': 200,
+        """gets a specific incident"""
+        is_valid_id = validator.check_id_valid(id)
+        if is_valid_id:
+            if model.get_specif_incident(id):
+                return ({'status': 200,
                 "Incident":model.get_specif_incident(id)}),200
-        return ({"status":404,
+            return ({"status":404,
             "incident": 'incident not found'}),404
 
     def put(self, id):
-        specific_incident = model.get_specif_incident(id)
-        parser = reqparse.RequestParser()
-        parser.add_argument('comment',
-        type=str,
-        required=False
-        )
-        parser.add_argument('location',
-        type=str,
-        required=False
-        )
+        """updates a specific incident"""
+        is_valid_id = validator.check_id_valid(id)
+        if is_valid_id:
+            specific_incident = model.get_specif_incident(id)
+            parser = reqparse.RequestParser()
+            parser.add_argument('comment',
+            type=str,
+            required=False
+            )
+            parser.add_argument('location',
+            type=str,
+            required=False
+            )
 
-        args = parser.parse_args()
-        # pdb.set_trace()
-        if specific_incident:
-            if args['comment']:
-                specific_incident[0]['comment'] = args['comment']
-                if args['location']:
-                    specific_incident[0]['location'] = args['location']
-                    return({'status':201,'message':'comments and location updated'}),201
-                return({'status':201,'message':'comment only updated'}),201
-            elif not args['comment']:
-                if args['location']:
-                    specific_incident[0]['location'] = args['location']
-                    return({'status':201,'message':'only location updated'}),201
-        return({'message':'incident not found'}),404  
+            args = parser.parse_args()
+            # pdb.set_trace()
+            
+            if specific_incident:
+                if args['comment']:
+                    specific_incident[0]['comment'] = args['comment']
+                    if args['location']:
+                        specific_incident[0]['location'] = args['location']
+                        return({'status':201,'message':'comments and location updated'}),201
+                    return({'status':201,'message':'comment only updated'}),201
+                elif not args['comment']:
+                    if args['location']:
+                        specific_incident[0]['location'] = args['location']
+                        return({'status':201,'message':'location only updated'}),201
+            return({'message':'incident not found'}),404  
 
     def delete(self, id):
-        specific_incident = model.get_specif_incident(id)
-        if specific_incident:
-            model.delete_incident(id)
-            return({'status':'incident deleted'}),200
-        return({'status':'failed to delete'}),404
-
+        """deletes a specififc incident"""
+        if validator.check_id_valid(id):     
+            specific_incident = model.get_specif_incident(id)
+            if specific_incident:
+                model.delete_incident(id)
+                return({'status':200}),200
+            return({'message':'incident not found'}),404
+        return({'message':'invalid id'})

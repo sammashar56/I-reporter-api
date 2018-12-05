@@ -88,7 +88,7 @@ class BaseTestCase(unittest.TestCase):
         res = self.client.put('api/v1/incident/1', 
         data=json.dumps(data), 
         content_type="application/json")
-        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.status_code, 404)
         
     def test_delete_specific_not_found(self):
         res = self.client.delete('api/v1/incident/1', 
@@ -99,6 +99,12 @@ class BaseTestCase(unittest.TestCase):
     def test_register_user(self):
         res = self.client.post('api/v1/users', 
         data=json.dumps(self.user), 
+        content_type="application/json")
+        self.assertTrue(res.status_code == 201)
+
+    def test_reg_pass_not_match(self):
+        res = self.client.post('api/v1/users',
+        data=json.dumps(self.user),
         content_type="application/json")
         self.assertTrue(res.status_code == 201)
 

@@ -5,7 +5,7 @@ from flask_restful import Api
 #local imports
 from instance.config import app_config
 from app.api.v1.views.incident import Incident, SingleIncidentResource
-from app.api.v1.views.users import Users
+from app.api.v1.views.users import UserRegistration
 
 def create_app(config): 
     """this method creates all instance needed for endpoints"""
@@ -15,7 +15,7 @@ def create_app(config):
     app.url_map.strict_slashes = False
     api.add_resource(Incident, '/api/v1/incidents')
     api.add_resource(SingleIncidentResource, '/api/v1/incident/<int:id>')
-    api.add_resource(Users, '/api/v1/users')
-
+    api.add_resource(UserRegistration, '/api/v1/users')
+    
             
     return app  
