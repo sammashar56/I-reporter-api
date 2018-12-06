@@ -1,4 +1,4 @@
-from app.api.v2.db import Database
+from app.api.db import Database
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class ModelDb(Database):

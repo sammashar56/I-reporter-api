@@ -1,4 +1,4 @@
-from app.api.v2.db import Database
+from app.api.db import Database
 
 class IncidentModel(Database):
     """Incident model database"""
