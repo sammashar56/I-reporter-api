@@ -1,8 +1,10 @@
 from flask_restful import Resource, reqparse
-from app.api.v2.Validator import Validators
+from app.api.v2.validator import Validators
 from werkzeug.security import check_password_hash, generate_password_hash
 
+from app.api.v2.model.user import ModelDb
 
+model = ModelDb()
 validator = Validators()
 
 
@@ -41,10 +43,23 @@ class UserRegister(Resource):
 			required=True,
 			help='confirm password'
 			) 
+		parser.add_argument(
+			'is_admin',
+			type=bool,
+			required=True,
+			help='provide a role'
+		)
 
 		args = parser.parse_args()
 		email = validator.check_email(args['email'])
 		password = validator.check_password(args['password'])
-		if email and password:
-			pass
-			
+		data = model.add_user(args)
+		return (
+			{
+				"status":201,
+				"message":"Registration success",
+				"data":data
+			}
+		), 201
+
+
