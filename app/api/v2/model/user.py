@@ -7,14 +7,14 @@ class ModelDb(Database):
         super().__init__()
 
     def add_user(self, data):
-        """add a user"""
+        """insert a user in the db"""
         hashed_password = generate_password_hash(data['password'])
         self.cursor.execute(
             """ INSERT INTO users(firstname, lastname, email, 
             phone_no, is_admin, password) 
             VALUES('%s','%s','%s','%s','%s','%s')
-        )"""%(data['incident_id'], data['firstname'], 
-        data['lastname'], data['email'], data['phone_no'], data['is_admin'],data['password'])
+        """%(data['firstname'], 
+        data['lastname'], data['email'], data['phone_no'], data['is_admin'],hashed_password))
         self.commiting()
         return data
 
