@@ -1,5 +1,9 @@
+#system libraries
 import os
+
+#installed libs
 import psycopg2
+
 
 class Database:
     """database connection"""
@@ -19,7 +23,3 @@ class Database:
     def close_db(self):
         """closing the connection""" 
         self.cursor.close()
-
-if __name__== '__main__':
-    db = Database()
-    

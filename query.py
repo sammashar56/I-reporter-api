@@ -10,14 +10,16 @@ users = """ CREATE TABLE IF NOT EXISTS users (
     password int NOT NULL
 )"""
 
-incident = """ CREATE TABLE IF NOT EXISTS incidents (
+incidents = """ CREATE TABLE IF NOT EXISTS incidents (
     incident_id serial PRIMARY KEY NOT NULL,
     type_of_incident character varying (120) NOT NULL,
     comment character varying (250) NOT NULL,
     status character varying (120) NOT NULL,
     location varchar (120) NOT NULL,
-    created_at varchar (120) NOT NULL
+    created_at varchar (120) NOT NULL,
+    user_id int NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (user_id)
 )"""
 
-query = [users, incident]
+queries = [users, incidents]
 
