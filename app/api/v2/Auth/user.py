@@ -1,13 +1,12 @@
 from flask_restful import Resource, reqparse
+from app.api.v2.Validator import Validators
+from werkzeug.security import check_password_hash, generate_password_hash
 
-#local imports
-from app.api.v1.models import UsersModel
-from app.api.v1.validators import Validators 
 
 validator = Validators()
-model = UsersModel()
 
-class UserRegistration(Resource):
+
+class UserRegister(Resource):
 	""" user regstration"""
 	def post(self):
 		"""user registration"""
@@ -47,33 +46,5 @@ class UserRegistration(Resource):
 		email = validator.check_email(args['email'])
 		password = validator.check_password(args['password'])
 		if email and password:
-			if args['password'] == args['confirm_password']:
-				model.add_user(args)
-				return({'status':201,
-						'user':args}),201
-			return({'message': 'passwords do not match'}),401
-
-
-class UserLogin(Resource):
-	"""user login"""
-	def post(self):
-		"""loging in a user"""
-		parser = reqparse.RequestParser()
-		parser.add_argument('email',
-		required=True,
-		type=str,
-		help='provide a valid email'
-		)
-
-		parser.add_argument('password',
-		required=True,
-		type=str,
-		help='provide a password'
-		)
-
-		args = parser.parse_args()
-		email = validator.check_email(args['email'])
-		password = validator.check_password(args['password'])
-		if email and password:
-			return({'status':200,
-			'message':'logged in'})
+			pass
+			
