@@ -5,9 +5,11 @@ __pycache__/
 
 # C extensions
 *.so
-
+#vscode stuff
+.vscode
 # Distribution / packaging
 .Python
+.test
 build/
 develop-eggs/
 dist/
@@ -57,7 +59,7 @@ local_settings.py
 db.sqlite3
 
 # Flask stuff:
-instance/
+# instance/
 .webassets-cache
 
 # Scrapy stuff:
@@ -90,6 +92,7 @@ ENV/
 env.bak/
 venv.bak/
 
+
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -102,3 +105,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+.test
