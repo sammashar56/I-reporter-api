@@ -1,10 +1,10 @@
+from datetime import datetime as dt
+
+#local imports
 from app.api.db import Database
 
 class IncidentModel(Database):
     """Incident model database"""
-    def __init__(self):
-        super().__init__()
-    
     def get_all_incidents(self):
         """fetch all incidents"""
         self.cursor.execute("SELECT * FROM incidents"
@@ -21,17 +21,22 @@ class IncidentModel(Database):
 
     def add_incident(self, data):
         """create an incident"""
-        self.cursor.execute("""INSERT INTO incidents(incident_id, 
-        type_of_incident, comment, status, location, created_at)
-        VALUES ('%s', '%s', '%s', '%s', '%s', '%s')""")%(data['incident_id'], data['type_of_incident'], 
-        data['comment'], data['status'], data['location'], data['created_at'])
+        created_at = dt.now().strftime(
+                '%Y-%m-%d %H:%M:%S')
+        status = 'draft'        
+        #print("\n",data,"\n")
+        self.cursor.execute("""INSERT INTO incidents (user_id, type_of_incident, 
+        comment, status, location, created_at)
+        VALUES (%s, %s, %s, %s, %s, %s)""", (1,data['type_of_incident'], 
+        data['comment'], status, data['location'], created_at))
+        #result = self.cursor.fetchall()
         self.commiting()
-        return data
+       # return result
 
 
     def update_specific_incident(self, incident_id):
         """fetch specific incident"""
-        self.cursor.execute("""UPDATE  incidents WHERE
+        self.cursor.execute("""UPDATE incidents WHERE
         incident_id='%s' """ %(incident_id))
         incident = self.cursor.fetchone()
         self.commiting()
@@ -44,3 +49,19 @@ class IncidentModel(Database):
         incident = self.cursor.fetchone()
         self.commiting()
         return incident
+
+    def update_incident_status(self,status):
+        """updating incident status"""
+        self.cursor.execute("""UPDATE incidents WHERE
+        status='%s' """ %(status))
+        incident = self.cursor.fetchone()
+        self.commiting()
+        return incident
+
+    def check_status_draft(self):
+        """checking if the status is draft"""
+        self.cursor.execute(
+            "SELECT * FROM incidents WHERE status=draft")
+        result = self.cursor.fetchone()
+        return result
+        

@@ -1,5 +1,4 @@
 #standard system libraries
-
 import unittest 
 import json
  
@@ -17,9 +16,7 @@ class TestBaseCase(unittest.TestCase):
         self.app = create_app("testing")
         self.client = self.app.test_client()
         self.db = TableCreation()
-        with self.app.app_context():
-            self.db.create_table()
-
+       
     def tearDown(self):
         with self.app.app_context():
             self.db.kill()
