@@ -55,3 +55,8 @@ $ pip install -r requirements.txt
 ```
 https://i-reporter-api.herokuapp.com/
 ```
+
+### v2
+uses a postgres database
+
+`export DATABASE_URL="dbname='ireporter' host='localhost' user='postgres' password='1234'"`

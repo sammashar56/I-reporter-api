@@ -7,12 +7,18 @@ import psycopg2 as p
 # local modules
 from query import queries
 
-class TableCreation:
+class Database:
+    def __init__ (self):
+        try:
+            self.conn = p.connect(os.getenv("DATABASE_URL"))
+            self.cursor = self.conn.cursor()
+            print ('database connected')
+        except:
+            print('cannot connect to database')
+            
+
+class TableCreation(Database):
     """creation of the tables"""
-    def __init__(self):
-        self.conn = p.connect(os.getenv("DATABASE_URL"))
-        self.cursor = self.conn.cursor()
-    
     def create_table(self):
         """loop through query creating the tables"""
         for q in queries:

@@ -12,7 +12,8 @@ class Incident(Resource, IncidentModel):
         """get all records of incidents"""
         if len(self.incident) == 0:
             return ({'message': 'no records found'}), 200
-        return ({'incidents': self.incident}), 200
+        return ({'status':"success",
+        'incidents': self.incident}), 200
  
     def post(self): 
         """create an incident"""
@@ -22,7 +23,6 @@ class Incident(Resource, IncidentModel):
         required=True, 
         help='provide a comment')
 
-        
         parser.add_argument('type_of_incident', 
         type=str, 
         required=True, 
@@ -37,12 +37,13 @@ class Incident(Resource, IncidentModel):
         data = {'comment': args['comment'], 
         'location':args['location'],
         'type_of_incident':args['type_of_incident']}
-
+        
         model.add_incident(data)
 
-        return ({'status':201,'Incident': data}),201
+        return (
+            {'status':201,'message':"registered successfuly",'Incident': data}),201
 
-class SingleIncidentResource(Resource, IncidentModel):
+class SingleIncident(Resource, IncidentModel):
     """Get specific record class"""
     specific_incident = model.get_specif_incident(id)
     def get(self, id):
@@ -50,10 +51,10 @@ class SingleIncidentResource(Resource, IncidentModel):
         is_valid_id = validator.check_id_valid(id)
         if is_valid_id:
             if model.get_specif_incident(id):
-                return ({'status': 200,
+                return ({'status': "success",
                 "Incident":model.get_specif_incident(id)}),200
             return ({"status":404,
-            "incident": 'incident not found'}),404
+            "message": 'incident not found'}),404
 
     def put(self, id):
         """updates a specific incident"""
@@ -72,7 +73,7 @@ class SingleIncidentResource(Resource, IncidentModel):
 
             args = parser.parse_args()
             # pdb.set_trace()
-            
+           # if not args['location'] and args['comment']:
             if specific_incident:
                 if args['comment']:
                     specific_incident[0]['comment'] = args['comment']
