@@ -82,7 +82,7 @@ class Login(Resource):
 		email = validator.check_email(args['email'])
 		password = validator.check_password(args['password'])
 		user = model.check_email(email)
-		print(model.get_user_password(email)[0])
+		#print(model.get_user_password(email)[0])
 		print(user)
 		#print(email)
 		#if user:
