@@ -82,13 +82,10 @@ class Login(Resource):
 		email = validator.check_email(args['email'])
 		password = validator.check_password(args['password'])
 		user = model.check_email(email)
-		#print(model.get_user_password(email)[0])
-		print(user)
-		#print(email)
-		#if user:
-		if check_password_hash(model.get_user_password(email)[6], password):
-			token = t.encode_auth_token(str(model.get_user_password(email)[0]))
-			return ({"token": token.decode()})
-		#	return ({"message":"passwords do not match"})
+		#print(model.get_all_users())
+		if user:
+			if check_password_hash(model.get_user_password(email)[6], password):
+				token = t.encode_auth_token(str(model.get_user_password(email)[0]))
+				return ({"token": token.decode()})
+			return ({"message":"passwords do not match"})
 		return({"message":"user not found"})
-		
