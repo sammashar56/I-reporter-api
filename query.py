@@ -17,9 +17,9 @@ incidents = """ CREATE TABLE IF NOT EXISTS incidents (
     status character varying(120) NOT NULL,
     location character varying(120) NOT NULL,
     created_at character varying(120) NOT NULL,
-    user_id int NOT NULL
-    
-)"""
+    user_id int NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (user_id)
+    )"""
 
 queries = [users, incidents]
 #FOREIGN KEY (user_id) REFERENCES users (user_id)

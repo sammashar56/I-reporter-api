@@ -36,7 +36,7 @@ class ModelUser(Database):
     def get_user_password(self, email):
         """get a password"""
         self.cursor.execute("SELECT * FROM users WHERE email='%s'" %(email))
-        result = self.cursor.fetchone()
+        result = self.cursor.fetchone() 
         return result
         
     def check_email(self, email):
@@ -46,3 +46,15 @@ class ModelUser(Database):
         )
         user = self.cursor.fetchone()
         return user
+
+    def get_all_users(self):
+        """get all users"""
+        self.cursor.execute("SELECT * FROM users")
+        result = self.cursor.fetchall()
+        return result
+
+    def check_user_id(self, user_id):
+        """get user by id"""
+        self.cursor.execute("SELECT * FROM users WHERE user_id='%s'" %user_id)
+        result = self.cursor.fetchone()
+        return result

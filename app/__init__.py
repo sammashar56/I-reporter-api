@@ -21,7 +21,5 @@ def create_app(config):
     api.add_resource(UserRegister, '/api/v2/auth/signup')
     api.add_resource(AuthIncident, '/api/v2/incident')
     api.add_resource(Login, '/api/v2/auth/login')
-    api.add_resource(SingleIncidentResource, '/api/v2/incident/<int:id>')
-    
-            
+    api.add_resource(SingleIncidentResource, '/api/v2/incident/<int:id>')        
     return app  
