@@ -4,6 +4,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.api.v2.token import Token as t
 from app.api.v2.model.user import ModelUser
+from app.api.v2.helpers import Helper as helper
 
 model = ModelUser()
 validator = Validators()
@@ -52,18 +53,22 @@ class UserRegister(Resource):
 		)
 
 		args = parser.parse_args()
-		validator.check_email(args['email'])
-		if args['password'] == args['confirm_password']:
-			validator.check_password(args['password'])
-			data = model.add_user(args)
-			return (
-				{
-					"status":201,
-					"message":"Registration success",
-					"data":data
-				}
-			), 201
-		return({'message':"passwords do not match"}),200
+		email = validator.check_email(args['email'])
+		user_exist = model.check_email(email)
+		if not user_exist:
+			if args['password'] == args['confirm_password']:
+				validator.check_password(args['password'])
+				data = model.add_user(args)
+				#user_data = helper.user_serializer(data)
+				return (
+					{
+						"status":201,
+						"message":"Registration successful",
+						"data":data
+					}
+				), 201
+			return({'message':"passwords do not match"}),200
+		return({"message":"user with email already exist"})
 
 class Login(Resource):
 	def post(self):
