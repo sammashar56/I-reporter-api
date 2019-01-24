@@ -29,7 +29,7 @@ class ModelUser(Database):
             if result[5] == True:
                 return result
             else:
-                raise Forbidden("Admins access this")
+                raise Forbidden("Admins ONLY access this")
         else:
             raise NotFound("no user of that id")
 
