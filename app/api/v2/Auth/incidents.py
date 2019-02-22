@@ -57,7 +57,11 @@ class AuthIncident(Resource):
             for i in incidents:
                 serialized_incidents.append(h.incident_serializer(i))
             return serialized_incidents
-        return ({"message":"no incidents found"})
+        return (
+            {
+                "message":"no incidents found"
+            }
+            ),201
 
  
 class SingleIncidentResource(Resource, IncidentModel):
@@ -76,7 +80,6 @@ class SingleIncidentResource(Resource, IncidentModel):
     @auth_required
     def delete(self, id):
         """delete a specific incident"""
-        #draft = model.check_status_draft()
         logged_user = h.default_user()     
         incident = model.get_specific_incident(id)
         if incident:
@@ -138,8 +141,18 @@ class UpdateIncident(Resource):
                                 model.update_location_only(location, id)
                                 if title:
                                     model.update_title_only(title,id) 
-                                return({'status':201,'message':'comments, title and location updated'}),201
-                            return({'status':201,'message':'comment only updated'}),201
+                                return(
+                                    {
+                                        'status':201,
+                                        'message':'comments, title and location updated'
+                                    }
+                                    ),201
+                            return(
+                                {
+                                    'status':201,
+                                    'message':'comment only updated'
+                                }
+                                ),201
                     elif not comment:
                         if location:
                             model.update_location_only(location, id)
@@ -148,7 +161,8 @@ class UpdateIncident(Resource):
                             return({'status':201,'message':'location and title updated'}),201
                     elif title:
                             model.update_title_only(title, id)
-                    return ({"message":"title only updated","title":title})
+                    return (
+                        {"message":"title only updated","title":title})
                 return({'message':'can no longer update incident'}),404  
             return({"message": "Access denied"}),201
         return({"message": "incident not found"}),201

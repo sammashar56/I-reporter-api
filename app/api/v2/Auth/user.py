@@ -59,7 +59,6 @@ class UserRegister(Resource):
 			if args['password'] == args['confirm_password']:
 				validator.check_password(args['password'])
 				data = model.add_user(args)
-				#user_data = helper.user_serializer(data)
 				return (
 					{
 						"status":201,
@@ -87,10 +86,18 @@ class Login(Resource):
 		email = validator.check_email(args['email'])
 		password = validator.check_password(args['password'])
 		user = model.check_email(email)
-		#print(model.get_all_users())
 		if user:
 			if check_password_hash(model.get_user_password(email)[6], password):
 				token = t.encode_auth_token(str(model.get_user_password(email)[0]))
+				model.save_token(token.decode())
 				return ({"token": token.decode()})
 			return ({"message":"passwords do not match"})
 		return({"message":"user not found"})
+
+class Logout(Resource):
+	# @staticmethod
+	def delete(self, token):
+		if token:
+			model.delete_token(token)
+			return({"message":"logout successfull"})
+		return({"message":"token invalid"})
