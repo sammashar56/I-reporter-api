@@ -58,3 +58,14 @@ class ModelUser(Database):
         self.cursor.execute("SELECT * FROM users WHERE user_id='%s'" %user_id)
         result = self.cursor.fetchone()
         return result
+
+    def save_token(self, token):
+        """save token to database"""
+        self.cursor.execute("""INSERT INTO blacklist(token) VALUES ('%s')"""%token)
+        self.commiting
+
+    def delete_token(self, token):
+        """deleting token"""
+        self.cursor.execute("""DELETE blacklist WHERE token ='%s'
+        """ %(token))
+        self.commiting()

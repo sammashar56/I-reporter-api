@@ -6,7 +6,7 @@ from flask_restful import Api
 from instance.config import app_config
 from app.api.v1.views.incident import Incident, SingleIncident
 from app.api.v1.views.users import UserRegistration
-from app.api.v2.Auth.user import UserRegister, Login
+from app.api.v2.Auth.user import UserRegister, Login, Logout
 from app.api.v2.Auth.incidents import AuthIncident, SingleIncidentResource, UpdateIncident
 from flask_cors import CORS
 def create_app(config): 
@@ -20,6 +20,7 @@ def create_app(config):
     api.add_resource(SingleIncident, '/api/v1/incident/<int:id>')
     api.add_resource(UserRegistration, '/api/v1/users')
     api.add_resource(UserRegister, '/api/v2/auth/signup')
+    api.add_resource(Logout, '/api/v2/auth/logout')
     api.add_resource(AuthIncident, '/api/v2/incident')
     api.add_resource(UpdateIncident, '/api/v2/incident/update/<int:id>')
     api.add_resource(Login, '/api/v2/auth/login')

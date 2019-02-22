@@ -14,7 +14,7 @@ incidents = """ CREATE TABLE IF NOT EXISTS incidents (
     incident_id serial PRIMARY KEY NOT NULL,
     type_of_incident character varying (120) NOT NULL,
     title character varying(250) NOT NULL,
-    comment character varying(250) NOT NULL,
+    comment character varying(250) NOT NULL, 
     status character varying(120) NOT NULL, 
     location character varying(120) NOT NULL,
     created_at character varying(120) NOT NULL,

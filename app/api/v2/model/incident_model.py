@@ -25,12 +25,11 @@ class IncidentModel(Database):
         created_at = dt.now().strftime(
                 '%Y-%m-%d %H:%M:%S')
         status = 'draft'        
-        #print("\n",data,"\n")
+        print("\n",data,"\n")
         self.cursor.execute("""INSERT INTO incidents (user_id, type_of_incident,title, 
         comment, status, location, created_at)
         VALUES (%s, '%s', '%s', '%s', '%s', '%s', '%s')"""%(data['user_id'], data['type_of_incident'], data['title'],
         data['comment'], status, data['location'], created_at))
-        #result = self.cursor.fetchall()
         self.commiting()
        # return result
     
@@ -64,14 +63,11 @@ class IncidentModel(Database):
         self.commiting()
         return incident_id
         
-
-    # def update_incident_status(self,status):
-    #     """updating incident status"""
-    #     self.cursor.execute("""UPDATE incidents WHERE
-    #     status='%s' """ %(status))
-    #     incident = self.cursor.fetchone()
-    #     self.commiting()
-    #     return incident
+    def Logout_token(self, token):
+        self.cursor.execute("""DELETE from blacklist WHERE token = '%s' """
+        %(token))
+        self.commiting()
+        
 
  
         
