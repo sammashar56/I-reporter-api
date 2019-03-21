@@ -54,21 +54,24 @@ class UserRegister(Resource):
 
 		args = parser.parse_args()
 		email = validator.check_email(args['email'])
+		phone = validator.check_phone(args['phone'])
 		user_exist = model.check_email(email)
-		if not user_exist:
-			if args['password'] == args['confirm_password']:
-				validator.check_password(args['password'])
-				data = model.add_user(args)
-				return (
-					{
-						"status":201,
-						"message":"Registration successful",
-						"data":data
-					}
-				), 201
-			return({'message':"passwords do not match"}),200
-		return({"message":"user with email already exist"})
-
+		if phone:
+			if not user_exist:
+				if args['password'] == args['confirm_password']:
+					validator.check_password(args['password'])
+					data = model.add_user(args)
+					return (
+						{
+							"status":201,
+							"message":"Registration successful",
+							"data":data
+						}
+					), 201
+				return({'message':"passwords do not match"}),200
+			return({"message":"user with email already exist"})
+		return({"message":"phone number not less than ten digits"}),200
+		
 class Login(Resource):
 	def post(self):
 		parser = reqparse.RequestParser()

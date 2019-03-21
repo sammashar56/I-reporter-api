@@ -37,3 +37,11 @@ class Validators():
             raise BadRequest("Password is too long, maximum is 12 characters")
         else:
             return password
+
+    def check_phone(self, phone):
+        """check phone number validity"""
+        if len(phone) > 10:
+            raise BadRequest("phone number 10 digits")
+        else:
+            return phone
+           
